@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Hasil {{ kuis.judul }}{% endblock %}
+{% block content %}
+<section class="card">
+  <h1>🏆 {{ kuis.judul }}</h1>
+  <p class="muted">Kode: <span class="kode">{{ kuis.kode }}</span> · {{ total }} soal</p>
+
+  <table class="papan">
+    <thead><tr><th>#</th><th>Nama</th><th>Benar</th><th>Skor</th><th>Waktu mengerjakan</th></tr></thead>
+    <tbody>
+    {% for p in papan %}
+      <tr class="{{ 'saya' if p.id == skor_id else '' }}">
+        <td>{{ loop.index }}</td>
+        <td>{{ p.nama }}</td>
+        <td>{{ p.jumlah_benar }}/{{ total }}</td>
+        <td>{{ p.nilai }}</td>
+        <td>{{ p.waktu|wib }}</td>
+      </tr>
+    {% else %}
+      <tr><td colspan="5" class="muted center">Belum ada yang main.</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  <p class="center">
+    <a class="btn" href="{{ url_for('kuis_detail', kode=kuis.kode) }}">Ulangi kuis ini</a>
+    <a class="btn ghost" href="{{ url_for('daftar_kuis', kelas=kuis.kelas) }}">Kuis lain Kelas {{ kuis.kelas|namakelas }}</a>
+  </p>
+</section>
+{% endblock %}

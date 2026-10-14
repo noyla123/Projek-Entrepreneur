@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}{{ kuis.judul }}{% endblock %}
+{% block content %}
+<section class="card" id="game">
+  <div class="row between status">
+    <span>Halo, <strong>{{ nama }}</strong></span>
+    <span>Skor: <strong id="skor">0</strong></span>
+  </div>
+  <div class="row between status">
+    <span id="nomor">Soal 1/{{ total }}</span>
+    <span class="timer" id="timer">20</span>
+  </div>
+  <div class="bar"><div id="bar-isi"></div></div>
+
+  <h2 id="teks" class="pertanyaan">Memuat...</h2>
+  <div class="pilihan" id="pilihan"></div>
+
+  <div id="umpanbalik" class="umpanbalik hidden"></div>
+  <button class="btn hidden" id="lanjut">Lanjut</button>
+</section>
+<script src="{{ url_for('static', filename='kuis.js') }}"></script>
+{% endblock %}

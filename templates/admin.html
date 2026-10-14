@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Admin{% endblock %}
+{% block content %}
+<section class="card">
+  <h1>Kuis saya</h1>
+  <form method="post" action="{{ url_for('kuis_baru') }}" class="row">
+    <input name="judul" placeholder="Judul kuis baru" maxlength="150" required>
+    <select name="kelas" required style="width:auto">
+      {% for k in ('A', 'B') %}
+      <option value="{{ k }}">Kelas {{ k|namakelas }}</option>
+      {% endfor %}
+    </select>
+    <button class="btn">Buat kuis</button>
+  </form>
+</section>
+
+{% for k in daftar %}
+<section class="card">
+  <div class="row between">
+    <div>
+      <h2>{{ k.judul }} <span class="badge">Kelas {{ k.kelas|namakelas }}</span></h2>
+      <p class="muted">Kode: <span class="kode">{{ k.kode }}</span> · {{ k.soal|length }} soal · {{ k.skor|length }} pemain</p>
+    </div>
+    <div class="row">
+      <a class="btn small" href="{{ url_for('kuis_edit', kuis_id=k.id) }}">Edit soal</a>
+      <a class="btn small ghost" href="{{ url_for('hasil', kode=k.kode) }}">Leaderboard</a>
+      <form method="post" action="{{ url_for('kuis_hapus', kuis_id=k.id) }}"
+            onsubmit="return confirm('Hapus kuis ini beserta semua soal dan skornya?')">
+        <button class="btn small danger">Hapus</button>
+      </form>
+    </div>
+  </div>
+</section>
+{% else %}
+<p class="muted center">Belum ada kuis. Buat yang pertama di atas.</p>
+{% endfor %}
+{% endblock %}

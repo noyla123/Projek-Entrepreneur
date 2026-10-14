@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}{{ kuis.judul }}{% endblock %}
+{% block content %}
+<section class="card center">
+  <a href="{{ url_for('daftar_kuis', kelas=kuis.kelas) }}" class="muted">← Kembali ke daftar kuis</a>
+  <h1>{{ kuis.judul }}</h1>
+  <p class="muted">Kelas {{ kuis.kelas|namakelas }} ·{{ kuis.soal|length }} soal</p>
+  <form method="post" action="{{ url_for('mulai') }}" class="stack">
+    <input type="hidden" name="kode" value="{{ kuis.kode }}">
+    <input name="nama" placeholder="Nama kamu" maxlength="60" required autofocus>
+    <button class="btn">Mulai</button>
+  </form>
+</section>
+{% endblock %}

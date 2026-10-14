@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Edit {{ kuis.judul }}{% endblock %}
+{% block content %}
+<section class="card">
+  <a href="{{ url_for('admin') }}" class="muted">← Kembali</a>
+  <h1>{{ kuis.judul }} <span class="badge">Kelas {{ kuis.kelas|namakelas }}</span></h1>
+  <p>Kuis ini muncul otomatis di daftar Kelas {{ kuis.kelas|namakelas }}. Kode: <span class="kode">{{ kuis.kode }}</span></p>
+</section>
+
+<section class="card">
+  <h2>Tambah soal</h2>
+  <form method="post" action="{{ url_for('soal_tambah', kuis_id=kuis.id) }}" class="stack">
+    <textarea name="teks" placeholder="Pertanyaan" rows="3" required></textarea>
+    <input name="a" placeholder="Pilihan A" required>
+    <input name="b" placeholder="Pilihan B" required>
+    <input name="c" placeholder="Pilihan C" required>
+    <input name="d" placeholder="Pilihan D" required>
+    <div class="row">
+      <label>Jawaban benar
+        <select name="benar" required>
+          <option value="A">A</option><option value="B">B</option>
+          <option value="C">C</option><option value="D">D</option>
+        </select>
+      </label>
+      <label>Waktu (detik)
+        <input type="number" name="waktu" value="20" min="5" max="120">
+      </label>
+    </div>
+    <button class="btn">Simpan soal</button>
+  </form>
+</section>
+
+<section class="card">
+  <h2>Daftar soal ({{ kuis.soal|length }})</h2>
+  {% for s in kuis.soal %}
+  <div class="soal-item">
+    <div>
+      <strong>{{ loop.index }}. {{ s.teks }}</strong>
+      <ul>
+        {% for huruf, isi in s.pilihan().items() %}
+        <li class="{{ 'benar' if huruf == s.benar else '' }}">{{ huruf }}. {{ isi }}</li>
+        {% endfor %}
+      </ul>
+      <span class="muted">{{ s.waktu }} detik</span>
+    </div>
+    <form method="post" action="{{ url_for('soal_hapus', soal_id=s.id) }}"
+          onsubmit="return confirm('Hapus soal ini?')">
+      <button class="btn small danger">Hapus</button>
+    </form>
+  </div>
+  {% else %}
+  <p class="muted">Belum ada soal.</p>
+  {% endfor %}
+</section>
+{% endblock %}

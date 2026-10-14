@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="card center">
+  <h1>Ayo main kuis!</h1>
+  <p class="muted">Pilih kelasmu dulu.</p>
+  <div class="kelas-grid">
+    {% for k in kelas_list %}
+    <a class="kelas-card k{{ k }}" href="{{ url_for('daftar_kuis', kelas=k) }}">
+      <span class="kelas-angka">{{ k|namakelas }}</span>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

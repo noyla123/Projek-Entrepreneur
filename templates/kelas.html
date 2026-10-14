@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Kuis Kelas {{ kelas|namakelas }}{% endblock %}
+{% block content %}
+<section class="card">
+  <a href="{{ url_for('index') }}" class="muted">← Ganti kelas</a>
+  <h1>Kuis Kelas {{ kelas|namakelas }}</h1>
+  <p class="muted">Pilih kuis yang ingin dikerjakan.</p>
+
+  {% for k in daftar %}
+  <a class="kuis-item" href="{{ url_for('kuis_detail', kode=k.kode) }}">
+    <div>
+      <strong>{{ k.judul }}</strong>
+      <div class="muted">{{ k.soal|length }} soal · {{ k.skor|length }} kali dikerjakan</div>
+    </div>
+    <span class="btn small">Kerjakan</span>
+  </a>
+  {% else %}
+  <p class="muted center">Belum ada kuis untuk kelas ini.</p>
+  {% endfor %}
+</section>
+{% endblock %}
